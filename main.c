@@ -49,38 +49,45 @@ int addstu()
 	while (t)
 	{
 		//strcpy_s(s1, sizeof(s1), "insert into stu values(?,?,?,?)");
-		printf("%s\n", s1);
+		/*printf("%s\n", s1);*/
 
 		SQLPrepare(hstmt, s1, strlen(s1));	//预编译语句命令			第三个参数与数组大小相同
 		printf("请输入学号： ");
 		ch = getchar();
-		gets_s(str4, 10);
+		gets_s(str1, 10);
 		printf("请输入姓名：");
 		//fflush(stdin);
 		//ch = getchar();
-		gets_s(str1,10);
+		gets_s(str2,10);
 		printf("请选择性别（1.男 2.女)");
 		do {
 			scanf_s("%d", &flag);
 			if (flag == 1)
-				strcpy_s(str2, sizeof(str2), "男");
+				strcpy_s(str3, sizeof(str2), "男");
 			else if (flag == 2)
-				strcpy_s(str2, sizeof(str2), "女");
+				strcpy_s(str3, sizeof(str2), "女");
 			else
 				printf("请重新选择\n");
 		} while (!(flag == 1 || flag == 2));
-		str2[2] = '\0';
+		str3[2] = '\0';
 		//printf("%d", strlen(str2));
 		printf("请输入成绩\n");
 		ch = getchar();
-		gets_s(str3, 4);
-		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, strlen(str1), 0, str1, 0, NULL);
+		gets_s(str4, 4);
+
+		/*puts(str1);
+		puts(str2);
+		puts(str3);
+		puts(str4);*/
+		
+
+		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, strlen(str1), 0, str1, 0, NULL);
 		//第一个参数是语句语柄，第二个参数指定送参数的编号，这里是1，那么就是第一个问号，第三个参数用来指定送参数的类型，这里用的SQL_PARAM_INPUT就是指定为输入类型
 		//第四个参数指定了Ｃ类型，第五个参数指定了SQL类型，第六个参数制定了送参数大小，第七个参数为送参数标记的列或表达式的十进制数字
 		//第八个参数指定了指向送参数地址的指针(也可以直接写数据)，第九个参数指定了缓冲区的长度，最后一个参数指定了指向参数长度缓冲区的指针
-		SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, strlen(str2), 0, str2, 0, NULL);
-		SQLBindParameter(hstmt, 4, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, strlen(str3), 0, str3, 0, NULL);
-		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, strlen(str4), 0, str4, 0, NULL);
+		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, strlen(str2), 0, str2, 0, NULL);
+		SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, strlen(str3), 0, str3, 0, NULL);
+		SQLBindParameter(hstmt, 4, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, strlen(str4), 0, str4, 0, NULL);
 		//绑定参数值完成
 		retcode = SQLExecute(hstmt);		//执行语句
 		SQLCancel(hstmt);		//让语句句柄回到上一个状态
@@ -241,7 +248,7 @@ int upd()
 	SQLCHAR s2[100];
 	SQLCHAR s3[100];
 	char ch;
-	printf("%s\n", up);
+	/*printf("%s\n", up);*/
 	//SQLPrepare(hstmt, up, 100);
 	printf("请输入你想要修改的学生的学号\n");
 	ch = getchar();
@@ -260,7 +267,7 @@ int upd()
 	strncat_s(v1, sizeof(v1), s2, strlen(s2));
 	strncat_s(v1, sizeof(v1), v3, strlen(v3));
 	strncat_s(v1, sizeof(v1), s3, strlen(s3));
-	printf("%s\n", v1);
+	/*printf("%s\n", v1);*/
 	SQLExecDirect(hstmt, v1, SQL_NTS);
 	SQLCancel(hstmt);
 	if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
